@@ -13,8 +13,8 @@ const helloCommandHandler = (
 ) => ({
   handle: (helloCommand: HelloCommand) => {
     return {
-      name: "John Doe 1",
-      envVariable: process.env.SOME_VARIABLE,
+      name: helloCommand.name,
+      method: helloCommand.envVariable,
     };
   },
 });
