@@ -1,14 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { processRequest } from "../../application/shared/api/process-request";
-import { APIError } from "../../error";
+import { handleRequest } from "../../application/shared/api/handle-request";
+import { APIError } from "../../application/shared/error";
 import {
   ExampleDataGET,
   ExampleGETService,
-} from "../../handle-http-request/example/service/handle-example.get-service";
+} from "../../handle-http-request/example/example.get.handler";
 import {
   ExampleDataPOST,
-  ExamplePOSTService,
-} from "../../handle-http-request/example/service/handle-example.post-service";
+  ExamplePOSTHandler,
+} from "../../handle-http-request/example/example.post.handler";
 
 type Data =
   | ExampleDataGET
@@ -17,8 +17,12 @@ type Data =
 
 export default function (req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
-    const chain = [new ExampleGETService(), new ExamplePOSTService()];
-    const data = processRequest(req, chain);
+    const getHandler = new ExampleGETService();
+    const postHandler = new ExamplePOSTHandler();
+
+    const chain = [getHandler, postHandler];
+
+    const data = handleRequest(req, chain);
 
     res.status(200).json(data);
   } catch (error) {

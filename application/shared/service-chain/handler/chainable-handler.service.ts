@@ -4,7 +4,9 @@ interface ValidHandler<T> {
   canHandle(params: T): boolean;
 }
 
-class BaseHandler<T, U> implements Handler<T, U> {
+export abstract class ChainableHandler<T, U>
+  implements Handler<T, U>, ValidHandler<T>
+{
   private next: Handler<T, U> | undefined;
 
   public chainWith(handler: Handler<T, U>): Handler<T, U> {
@@ -12,27 +14,23 @@ class BaseHandler<T, U> implements Handler<T, U> {
     return handler;
   }
 
-  public handle(params: T): U {
+  private callToNextHandler(params: T): U {
     if (this.next) {
       return this.next.handle(params);
     }
 
     throw new Error("Handler has no next");
   }
-}
-
-export abstract class ExecuteHandlerService<T, U>
-  extends BaseHandler<T, U>
-  implements ValidHandler<T>
-{
-  abstract canHandle(params: T): boolean;
 
   public handle(params: T): U {
     if (this.canHandle(params)) {
-      return this.execute(params);
+      return this.run(params);
     }
-    return super.handle(params);
+
+    return this.callToNextHandler(params);
   }
 
-  abstract execute(params: T): U;
+  abstract canHandle(params: T): boolean;
+
+  abstract run(params: T): U;
 }

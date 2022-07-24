@@ -1,6 +1,6 @@
 import { Handler } from "../service-chain/handler/handler.interface";
 
-export function processRequest<T, U>(req: T, handlers: Handler<T, U>[]) {
+export function handleRequest<T, U>(req: T, handlers: Handler<T, U>[]) {
   const firstHandler = buildChain(handlers);
   return firstHandler.handle(req) as U;
 }
