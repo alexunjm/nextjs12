@@ -1,7 +1,7 @@
 import { Handler } from "@application/shared/service-chain/handler/handler.interface";
 
 interface ValidHandler<T> {
-  canHandle(params: T): boolean;
+  canHandle(...args: T[]): boolean;
 }
 
 export abstract class ChainableHandler<T, U>
@@ -14,23 +14,23 @@ export abstract class ChainableHandler<T, U>
     return handler;
   }
 
-  private callToNextHandler(params: T): Promise<U> {
+  private callToNextHandler(...args: T[]): Promise<U> {
     if (this.next) {
-      return this.next.handle(params);
+      return this.next.handle(...args);
     }
 
     throw new Error("Handler has no next");
   }
 
-  public handle(params: T): Promise<U> {
-    if (this.canHandle(params)) {
-      return this.run(params);
+  public handle(...args: T[]): Promise<U> {
+    if (this.canHandle(...args)) {
+      return this.run(...args);
     }
 
-    return this.callToNextHandler(params);
+    return this.callToNextHandler(...args);
   }
 
-  abstract canHandle(params: T): boolean;
+  abstract canHandle(...args: T[]): boolean;
 
-  abstract run(params: T): Promise<U>;
+  abstract run(...args: T[]): Promise<U>;
 }

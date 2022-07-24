@@ -4,8 +4,8 @@ import { ApplicationRequest } from "@application/shared/request/application-requ
 export const helloCommandMapper = {
   requestToCommand: (data: ApplicationRequest): HelloCommand => {
     return {
-      name: "Alex",
-      envVariable: data.method || process.env.SOME_VARIABLE || "",
+      name: (data.query["name"] as string) || "Sir",
+      method: data.method || "",
     };
   },
 };

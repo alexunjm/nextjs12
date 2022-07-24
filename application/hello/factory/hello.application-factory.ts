@@ -13,8 +13,8 @@ const exampleCommandHandler = (
 ) => ({
   handle: (helloCommand: HelloCommand) => {
     return Promise.resolve({
-      name: helloCommand.name,
-      method: helloCommand.envVariable,
+      name: "hello " + helloCommand.name,
+      method: helloCommand.method,
     });
   },
 });

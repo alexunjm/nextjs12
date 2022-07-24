@@ -1,11 +1,12 @@
-import { NextApiRequest } from "next";
-import { ChainableHandler } from "@application/shared/service-chain/handler/chainable-handler.service";
+import { NextApiRequest, NextApiResponse } from "next";
+import { ChainableHandler } from "@application/shared/service-chain/handler/chainable-handler";
 
 export abstract class HttpGetHandler<T> extends ChainableHandler<
-  NextApiRequest,
+  NextApiRequest | NextApiResponse,
   T
 > {
-  public canHandle(req: NextApiRequest): boolean {
+  canHandle(...args: (NextApiRequest | NextApiResponse<any>)[]): boolean {
+    const [req] = args as [NextApiRequest, NextApiResponse];
     return req.method === "GET";
   }
 }
