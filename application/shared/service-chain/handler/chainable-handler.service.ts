@@ -14,7 +14,7 @@ export abstract class ChainableHandler<T, U>
     return handler;
   }
 
-  private callToNextHandler(params: T): U {
+  private callToNextHandler(params: T): Promise<U> {
     if (this.next) {
       return this.next.handle(params);
     }
@@ -22,7 +22,7 @@ export abstract class ChainableHandler<T, U>
     throw new Error("Handler has no next");
   }
 
-  public handle(params: T): U {
+  public handle(params: T): Promise<U> {
     if (this.canHandle(params)) {
       return this.run(params);
     }
@@ -32,5 +32,5 @@ export abstract class ChainableHandler<T, U>
 
   abstract canHandle(params: T): boolean;
 
-  abstract run(params: T): U;
+  abstract run(params: T): Promise<U>;
 }

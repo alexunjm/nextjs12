@@ -5,11 +5,11 @@ import { getAnExampleGETHandler } from "@http-handler/example/get/example.get.ha
 import { getAnExamplePOSTHandler } from "@http-handler/example/post/example.post.handler";
 import { ResponseExampleData } from "@http-handler/example/response-type/response-example-data.type";
 
-export default function (
+export default async function (
   req: NextApiRequest,
   res: NextApiResponse<ResponseExampleData | DefaultError>
 ) {
-  handleRouteWith(req, res, [
+  await handleRouteWith(req, res, [
     getAnExampleGETHandler(),
     getAnExamplePOSTHandler(),
   ]);

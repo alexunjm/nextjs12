@@ -3,13 +3,13 @@ import { APIError } from "@application/shared/error";
 import { DefaultError } from "@application/shared/error/default.error";
 import { Handler } from "@application/shared/service-chain/handler/handler.interface";
 
-export const handleRouteWith = <T>(
+export const handleRouteWith = async <T>(
   req: NextApiRequest,
   res: NextApiResponse<T | DefaultError>,
   handlers: Handler<NextApiRequest, T>[]
 ) => {
   try {
-    const data = handleRequest(handlers, req);
+    const data = await handleRequest(handlers, req);
 
     res.status(200).json(data);
   } catch (error) {
@@ -25,7 +25,7 @@ export const handleRouteWith = <T>(
 
 function handleRequest<T, U>(handlers: Handler<T, U>[], req: T) {
   const firstHandler = buildChain(handlers);
-  return firstHandler.handle(req) as U;
+  return firstHandler.handle(req);
 }
 
 function buildChain<T, U>(handlers: Handler<T, U>[]) {

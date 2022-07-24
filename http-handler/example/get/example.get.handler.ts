@@ -5,7 +5,7 @@ import { HttpGetHandler } from "@application/shared/api/http-handler/http-get.ha
 import { ExampleDataGET } from "@http-handler/example/get/example-data-get.type";
 
 class ExampleGETHandler extends HttpGetHandler<ExampleDataGET> {
-  run(req: NextApiRequest): ExampleDataGET {
+  run(req: NextApiRequest): Promise<ExampleDataGET> {
     const helloCommand = helloCommandMapper.requestToCommand(req);
 
     return helloApplication.exampleCommandHandler.handle(helloCommand);

@@ -12,10 +12,10 @@ const exampleCommandHandler = (
   dependencies?: ExampleCommandHandlerDependencies
 ) => ({
   handle: (helloCommand: HelloCommand) => {
-    return {
+    return Promise.resolve({
       name: helloCommand.name,
       method: helloCommand.envVariable,
-    };
+    });
   },
 });
 
