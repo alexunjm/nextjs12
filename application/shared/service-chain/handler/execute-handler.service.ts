@@ -1,13 +1,10 @@
-export interface Handler<T, U> {
-  chainWith(handler: Handler<T, U>): Handler<T, U>;
-  handle(params: T): U;
-}
+import { Handler } from "./handler.interface";
 
-export interface ValidHandler<T> {
+interface ValidHandler<T> {
   canHandle(params: T): boolean;
 }
 
-export class BaseHandler<T, U> implements Handler<T, U> {
+class BaseHandler<T, U> implements Handler<T, U> {
   private next: Handler<T, U> | undefined;
 
   public chainWith(handler: Handler<T, U>): Handler<T, U> {
@@ -24,7 +21,7 @@ export class BaseHandler<T, U> implements Handler<T, U> {
   }
 }
 
-export abstract class ConcreteHandler<T, U>
+export abstract class ExecuteHandlerService<T, U>
   extends BaseHandler<T, U>
   implements ValidHandler<T>
 {
@@ -32,10 +29,10 @@ export abstract class ConcreteHandler<T, U>
 
   public handle(params: T): U {
     if (this.canHandle(params)) {
-      return this.handleImpl(params);
+      return this.execute(params);
     }
     return super.handle(params);
   }
 
-  abstract handleImpl(params: T): U;
+  abstract execute(params: T): U;
 }

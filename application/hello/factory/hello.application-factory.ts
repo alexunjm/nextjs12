@@ -1,4 +1,4 @@
-import { HelloCommand } from "../command/builder/hello.command-builder";
+import { HelloCommand } from "../command/mapper/hello.command-mapper";
 
 export type HelloDto = { name: string; envVariable: string | undefined };
 
@@ -19,6 +19,6 @@ const helloCommandHandler = (
   },
 });
 
-export const _helloApplication = Object.freeze({
+export const helloApplication = Object.freeze({
   exampleCommandHandler: helloCommandHandler(),
 });

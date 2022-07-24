@@ -5,10 +5,10 @@ export type HelloCommand = {
   envVariable: string;
 };
 
-export const _helloCommandBuilder = {
-  build: (data: NextApiRequest): HelloCommand => {
+export const helloCommandMapper = {
+  nextApiRequestToCommand: (data: NextApiRequest): HelloCommand => {
     return {
-      name: "John Doe",
+      name: "Alex",
       envVariable: data.method || process.env.SOME_VARIABLE || "",
     };
   },

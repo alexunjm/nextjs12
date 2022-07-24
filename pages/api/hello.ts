@@ -1,26 +1,24 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Handler } from "../../application/chain.service";
-import { _helloCommandBuilder } from "../../application/hello/command/builder/hello.command-builder";
-import { _helloApplication } from "../../application/hello/factory/hello.application-factory";
+import { processRequest } from "../../application/shared/api/process-request";
 import { APIError } from "../../error";
 import {
-  ExampleData,
-  GetExampleHandler,
-} from "../../request-handler/example-handler.get";
-import { PostExampleHandler } from "../../request-handler/example-handler.post";
+  ExampleDataGET,
+  ExampleGETService,
+} from "../../handle-http-request/example/service/handle-example.get-service";
+import {
+  ExampleDataPOST,
+  ExamplePOSTService,
+} from "../../handle-http-request/example/service/handle-example.post-service";
 
-type Data = ExampleData | { message: string; detail: unknown };
+type Data =
+  | ExampleDataGET
+  | ExampleDataPOST
+  | { message: string; detail: unknown };
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+export default function (req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
-    const firstHandler = chainHandlers([
-      new GetExampleHandler(),
-      new PostExampleHandler(),
-    ]);
-    const data = firstHandler.handle(req) as Data;
+    const chain = [new ExampleGETService(), new ExamplePOSTService()];
+    const data = processRequest(req, chain);
 
     res.status(200).json(data);
   } catch (error) {
@@ -31,13 +29,5 @@ export default function handler(
       message: apiError.message,
       detail: apiError.detail,
     });
-  }
-
-  function chainHandlers(handlers: Handler<any, any>[]) {
-    let handler = handlers[0];
-    for (let index = 0; index < handlers.length; index++) {
-      handler = handler.chainWith(handlers[index]);
-    }
-    return handlers[0];
   }
 }
