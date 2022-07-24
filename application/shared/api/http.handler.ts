@@ -1,20 +1,24 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ChainableHandler } from "@application/shared/service-chain/handler/chainable-handler";
 
-export class HttpHandler<T> extends ChainableHandler<
+export class HttpHandler<RunnableResultType> extends ChainableHandler<
   NextApiRequest | NextApiResponse,
-  T
+  RunnableResultType
 > {
   constructor(
     public readonly verb: string,
     runnable: {
-      run: (...args: (NextApiRequest | NextApiResponse<any>)[]) => Promise<T>;
+      run: (
+        ...args: (NextApiRequest | NextApiResponse<RunnableResultType>)[]
+      ) => Promise<RunnableResultType>;
     }
   ) {
     super(runnable);
   }
 
-  canHandle(...args: (NextApiRequest | NextApiResponse<any>)[]): boolean {
+  canHandle(
+    ...args: (NextApiRequest | NextApiResponse<RunnableResultType>)[]
+  ): boolean {
     const [req] = args as [NextApiRequest, NextApiResponse];
     return req.method === this.verb;
   }

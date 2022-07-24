@@ -7,7 +7,7 @@ import { HttpHandler } from "@application/shared/api/http.handler";
 export const getAnExampleGETHandler = () =>
   new HttpHandler<ExampleDataGET>("GET", {
     run: (
-      ...args: (NextApiRequest | NextApiResponse<any>)[]
+      ...args: (NextApiRequest | NextApiResponse<ExampleDataGET>)[]
     ): Promise<ExampleDataGET> => {
       const [req] = args as [NextApiRequest, NextApiResponse];
 

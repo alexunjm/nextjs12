@@ -2,7 +2,10 @@ interface ValidHandler<T> {
   canHandle(...args: T[]): boolean;
 }
 
-export interface Handler<T, U> extends ValidHandler<T> {
-  chainWith(handler: Handler<T, U>): Handler<T, U>;
-  handle(...args: T[]): Promise<U>;
+export interface Handler<HandleArgs, ReturnType>
+  extends ValidHandler<HandleArgs> {
+  chainWith(
+    handler: Handler<HandleArgs, ReturnType>
+  ): Handler<HandleArgs, ReturnType>;
+  handle(...args: HandleArgs[]): Promise<ReturnType>;
 }

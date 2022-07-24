@@ -7,7 +7,7 @@ import { HttpHandler } from "@application/shared/api/http.handler";
 export const getAnExamplePOSTHandler = () =>
   new HttpHandler<ExampleDataPOST>("POST", {
     run: (
-      ...args: (NextApiRequest | NextApiResponse<any>)[]
+      ...args: (NextApiRequest | NextApiResponse<ExampleDataPOST>)[]
     ): Promise<ExampleDataPOST> => {
       const [req] = args as [NextApiRequest, NextApiResponse];
 
