@@ -6,10 +6,10 @@ export type HelloCommandHandler = {
   handle: (helloCommand: HelloCommand) => HelloDto;
 };
 
-type HelloCommandHandlerDependencies = {};
+type ExampleCommandHandlerDependencies = {};
 
-const helloCommandHandler = (
-  dependencies?: HelloCommandHandlerDependencies
+const exampleCommandHandler = (
+  dependencies?: ExampleCommandHandlerDependencies
 ) => ({
   handle: (helloCommand: HelloCommand) => {
     return {
@@ -20,5 +20,5 @@ const helloCommandHandler = (
 });
 
 export const helloApplication = Object.freeze({
-  exampleCommandHandler: helloCommandHandler(),
+  exampleCommandHandler: exampleCommandHandler(),
 });

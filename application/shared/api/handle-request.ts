@@ -1,6 +1,29 @@
+import { NextApiRequest, NextApiResponse } from "next";
+import { APIError } from "../error";
+import { DefaultError } from "../error/default.error";
 import { Handler } from "../service-chain/handler/handler.interface";
 
-export function handleRequest<T, U>(req: T, handlers: Handler<T, U>[]) {
+export const handleRouteWith = <T>(
+  req: NextApiRequest,
+  res: NextApiResponse<T | DefaultError>,
+  handlers: Handler<NextApiRequest, T>[]
+) => {
+  try {
+    const data = handleRequest(handlers, req);
+
+    res.status(200).json(data);
+  } catch (error) {
+    const apiError =
+      error instanceof APIError ? error : new APIError(500, error as Error);
+
+    res.status(apiError.httpStatusCode).json({
+      message: apiError.message,
+      detail: apiError.detail,
+    });
+  }
+};
+
+function handleRequest<T, U>(handlers: Handler<T, U>[], req: T) {
   const firstHandler = buildChain(handlers);
   return firstHandler.handle(req) as U;
 }
