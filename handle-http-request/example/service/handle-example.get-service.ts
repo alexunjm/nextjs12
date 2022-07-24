@@ -10,7 +10,7 @@ export type ExampleDataGET = {
 
 export class ExampleGETService extends HandleGETService<ExampleDataGET> {
   execute(req: NextApiRequest) {
-    const helloCommand = helloCommandMapper.nextApiRequestToCommand(req);
+    const helloCommand = helloCommandMapper.requestToCommand(req);
 
     return helloApplication.exampleCommandHandler.handle(helloCommand);
   }

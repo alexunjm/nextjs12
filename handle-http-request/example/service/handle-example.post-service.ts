@@ -10,7 +10,7 @@ export type ExampleDataPOST = {
 
 export class ExamplePOSTService extends HandlePOSTService<ExampleDataPOST> {
   execute(req: NextApiRequest) {
-    const helloCommand = helloCommandMapper.nextApiRequestToCommand(req);
+    const helloCommand = helloCommandMapper.requestToCommand(req);
 
     return helloApplication.exampleCommandHandler.handle(helloCommand);
   }
