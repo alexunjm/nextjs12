@@ -1,16 +1,8 @@
-export type HelloCommand = {
-  name: string;
-  envVariable: string;
-};
+import { HelloCommand } from "@application/hello/command/hello.command";
+import { ApplicationRequest } from "@application/shared/request/application-request";
 
 export const helloCommandMapper = {
-  requestToCommand: (data: {
-    query: Partial<{
-      [key: string]: string | string[];
-    }>;
-    body: any;
-    method?: string | undefined;
-  }): HelloCommand => {
+  requestToCommand: (data: ApplicationRequest): HelloCommand => {
     return {
       name: "Alex",
       envVariable: data.method || process.env.SOME_VARIABLE || "",

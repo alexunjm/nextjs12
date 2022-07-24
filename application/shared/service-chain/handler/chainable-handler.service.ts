@@ -1,4 +1,4 @@
-import { Handler } from "./handler.interface";
+import { Handler } from "@application/shared/service-chain/handler/handler.interface";
 
 interface ValidHandler<T> {
   canHandle(params: T): boolean;

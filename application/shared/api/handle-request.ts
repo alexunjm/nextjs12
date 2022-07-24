@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { APIError } from "../error";
-import { DefaultError } from "../error/default.error";
-import { Handler } from "../service-chain/handler/handler.interface";
+import { APIError } from "@application/shared/error";
+import { DefaultError } from "@application/shared/error/default.error";
+import { Handler } from "@application/shared/service-chain/handler/handler.interface";
 
 export const handleRouteWith = <T>(
   req: NextApiRequest,

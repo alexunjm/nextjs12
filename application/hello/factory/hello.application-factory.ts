@@ -1,4 +1,4 @@
-import { HelloCommand } from "../command/mapper/hello.command-mapper";
+import { HelloCommand } from "@application/hello/command/hello.command";
 
 export type HelloDto = { name: string; envVariable: string | undefined };
 
