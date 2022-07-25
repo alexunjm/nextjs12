@@ -3,12 +3,15 @@ import { ExampleCommandHandlerDependencies } from "@application/hello/command/ha
 import { HelloCommand } from "@application/hello/command/hello.command";
 import { HelloDto } from "@application/hello/dto/hello.dto";
 
-export const exampleCommandHandler = (
-  dependencies: ExampleCommandHandlerDependencies
-): CommandHandler<HelloCommand, HelloDto> => ({
+export const exampleCommandHandler = ({
+  greetingsService,
+}: ExampleCommandHandlerDependencies): CommandHandler<
+  HelloCommand,
+  HelloDto
+> => ({
   handle: (helloCommand: HelloCommand) => {
     return Promise.resolve({
-      name: "hello " + helloCommand.name,
+      message: greetingsService.getHelloMessage(helloCommand.name),
       method: helloCommand.method,
     });
   },

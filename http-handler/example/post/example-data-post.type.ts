@@ -1,4 +1,3 @@
-export type ExampleDataPOST = {
-  name: string;
-  method: string;
-};
+import { HelloDto } from "@application/hello/dto/hello.dto";
+
+export type ExampleDataPOST = HelloDto & { serverTime: Date };
