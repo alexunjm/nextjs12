@@ -1,24 +1,10 @@
-import { HelloCommand } from "@application/hello/command/hello.command";
+import { exampleCommandHandler } from "@application/hello/command/handler/example.command.handler";
+import { ExampleCommandHandlerDependencies } from "@application/hello/command/handler/dependencies/example-command-handler.dependencies";
 
-export type HelloDto = { name: string; envVariable: string | undefined };
-
-export type HelloCommandHandler = {
-  handle: (helloCommand: HelloCommand) => HelloDto;
-};
-
-type ExampleCommandHandlerDependencies = {};
-
-const exampleCommandHandler = (
-  dependencies?: ExampleCommandHandlerDependencies
-) => ({
-  handle: (helloCommand: HelloCommand) => {
-    return Promise.resolve({
-      name: "hello " + helloCommand.name,
-      method: helloCommand.method,
-    });
-  },
-});
+const exampleCommandHandlerDependencies: ExampleCommandHandlerDependencies = {};
 
 export const helloApplication = Object.freeze({
-  exampleCommandHandler: exampleCommandHandler(),
+  exampleCommandHandler: exampleCommandHandler(
+    exampleCommandHandlerDependencies
+  ),
 });

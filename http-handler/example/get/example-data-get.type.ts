@@ -1,4 +1,3 @@
-export type ExampleDataGET = {
-  name: string;
-  method: string;
-};
+import { HelloDto } from "@application/hello/dto/hello.dto";
+
+export type ExampleDataGET = HelloDto;
