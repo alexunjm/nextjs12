@@ -13,7 +13,7 @@ export class HttpHandler<RunnableResultType> extends ChainableHandler<
       ) => Promise<RunnableResultType>;
     }
   ) {
-    super(runnable);
+    super(runnable, `Request not handled`);
   }
 
   canHandle(

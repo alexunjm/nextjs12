@@ -1,3 +1,3 @@
-import { default as helloNameFn } from "./[name]";
+import { default as helloWithNameParamFn } from "./[name]";
 
-export default helloNameFn;
+export default helloWithNameParamFn;

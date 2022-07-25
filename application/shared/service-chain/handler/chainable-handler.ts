@@ -1,4 +1,5 @@
 import { Handler } from "@application/shared/service-chain/handler/handler.interface";
+import { NotHandlerFoundError } from "../error/not-handled.error";
 
 export abstract class ChainableHandler<T, U> implements Handler<T, U> {
   private next: Handler<T, U> | undefined;
@@ -6,7 +7,8 @@ export abstract class ChainableHandler<T, U> implements Handler<T, U> {
   constructor(
     private readonly runnable: {
       run: (...args: T[]) => Promise<U>;
-    }
+    },
+    private readonly handlerHasNoNextMessage = "Handler was not found."
   ) {}
 
   private callToNextHandler(...args: T[]): Promise<U> {
@@ -14,7 +16,7 @@ export abstract class ChainableHandler<T, U> implements Handler<T, U> {
       return this.next.handle(...args);
     }
 
-    throw new Error("Handler has no next");
+    throw new NotHandlerFoundError(this.handlerHasNoNextMessage);
   }
 
   public chainWith(handler: Handler<T, U>): Handler<T, U> {
